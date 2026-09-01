@@ -1,13 +1,22 @@
+
 import React from 'react'
 import Footer from '../Footer/Footer'
 import Navbar from '../Navbar/Navbar'
 import { Outlet } from 'react-router-dom'
 
-export default function Layout() {
-  return <>
+export default function Layout({ userData, logOut }) {
 
-  <Navbar/>
-  <Outlet> </Outlet>
-  <Footer/>
-  </>
+  return (
+    <>
+      <Navbar
+        userData={userData}
+        logOut={logOut}
+      />
+
+      <Outlet/>
+
+      <Footer/>
+    </>
+  )
 }
+

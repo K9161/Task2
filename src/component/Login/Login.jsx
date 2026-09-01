@@ -1,25 +1,30 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Joi from 'joi';
+
+import axios from 'axios'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Joi from 'joi'
 
 export default function Login({ saveUserData }) {
 
-    let navigate = useNavigate();
+    let navigate = useNavigate()
 
-    const [error, setError] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const [user, setUser] = useState({
         email: "",
         password: ""
-    });
+    })
 
     function getUserData(e) {
-        let myUser = { ...user };
-        myUser[e.target.name] = e.target.value;
-        setUser(myUser);
-        console.log(myUser);
+
+        let myUser = { ...user }
+
+        myUser[e.target.name] = e.target.value
+
+        setUser(myUser)
+
+        console.log(myUser)
     }
 
     function validateLoginForm() {
@@ -39,11 +44,11 @@ export default function Login({ saveUserData }) {
                 .min(6)
                 .required()
 
-        });
+        })
 
         return schema.validate(user, {
             abortEarly: false
-        });
+        })
     }
 
     async function postDataToApi() {
@@ -53,23 +58,29 @@ export default function Login({ saveUserData }) {
             let { data } = await axios.post(
                 'https://route-posts.routemisr.com/users/signin',
                 user
-            );
+            )
 
-            console.log(data);
+            console.log("LOGIN RESPONSE:", data)
 
             if (data.success === true) {
 
-                setLoading(false);
+    console.log("LOGIN RESPONSE:", data)
 
-                localStorage.setItem('userToken', data.token);
+    setLoading(false)
 
-                saveUserData(data);
+    localStorage.setItem(
+        'userToken',
+        data.data.token
+    )
 
-                navigate('/home');
+    saveUserData()
 
-            } else {
+    navigate('/home')
+}
 
-                setLoading(false);
+             else {
+
+                setLoading(false)
 
                 setError([
                     {
@@ -78,49 +89,54 @@ export default function Login({ saveUserData }) {
                             label: "general"
                         }
                     }
-                ]);
+                ])
             }
 
         } catch (err) {
 
-            setLoading(false);
+            console.log("LOGIN ERROR:", err.response?.data)
+
+            setLoading(false)
 
             setError([
                 {
                     message:
                         err.response?.data?.message ||
                         "Something went wrong",
+
                     context: {
                         label: "general"
                     }
                 }
-            ]);
+            ])
         }
     }
 
     function submitLoginForm(event) {
 
-        event.preventDefault();
+        event.preventDefault()
 
-        let validation = validateLoginForm();
+        let validation = validateLoginForm()
 
         if (validation.error) {
 
-            setError(validation.error.details);
-            return;
+            setError(validation.error.details)
 
+            return
         }
 
-        setError([]);
-        setLoading(true);
+        setError([])
 
-        postDataToApi();
+        setLoading(true)
+
+        postDataToApi()
     }
 
     return (
         <>
 
             {error.length > 0 && (
+
                 <div className="alert alert-danger my-2">
 
                     {error.map((err, index) => (
@@ -132,6 +148,7 @@ export default function Login({ saveUserData }) {
                     ))}
 
                 </div>
+
             )}
 
             <form onSubmit={submitLoginForm}>
@@ -171,5 +188,5 @@ export default function Login({ saveUserData }) {
             </form>
 
         </>
-    );
+    )
 }

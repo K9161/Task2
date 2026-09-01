@@ -1,14 +1,15 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Joi from 'joi';
+
+import axios from 'axios'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Joi from 'joi'
 
 export default function Register() {
 
-    let navigate = useNavigate();
+    let navigate = useNavigate()
 
-    const [error, setError] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const [user, setUser] = useState({
         name: "",
@@ -18,13 +19,17 @@ export default function Register() {
         gender: "",
         password: "",
         rePassword: ""
-    });
+    })
 
     function getUserData(e) {
-        let myUser = { ...user };
-        myUser[e.target.name] = e.target.value;
-        setUser(myUser);
-        console.log(myUser);
+
+        let myUser = { ...user }
+
+        myUser[e.target.name] = e.target.value
+
+        setUser(myUser)
+
+        console.log(myUser)
     }
 
     function validateRegisterForm() {
@@ -68,11 +73,11 @@ export default function Register() {
                     "any.only": "Passwords do not match"
                 })
 
-        });
+        })
 
         return schema.validate(user, {
             abortEarly: false
-        });
+        })
     }
 
     async function postDataToApi() {
@@ -82,19 +87,19 @@ export default function Register() {
             let { data } = await axios.post(
                 'https://route-posts.routemisr.com/users/signup',
                 user
-            );
+            )
 
-            console.log(data);
+            console.log("REGISTER RESPONSE:", data)
 
             if (data.success === true) {
 
-                setLoading(false);
+                setLoading(false)
 
-                navigate('/login');
+                navigate('/login')
 
             } else {
 
-                setLoading(false);
+                setLoading(false)
 
                 setError([
                     {
@@ -103,49 +108,54 @@ export default function Register() {
                             label: "general"
                         }
                     }
-                ]);
+                ])
             }
 
         } catch (err) {
 
-            setLoading(false);
+            console.log("REGISTER ERROR:", err.response?.data)
+
+            setLoading(false)
 
             setError([
                 {
                     message:
                         err.response?.data?.message ||
                         "Something went wrong",
+
                     context: {
                         label: "general"
                     }
                 }
-            ]);
+            ])
         }
     }
 
     function submitRegisterForm(event) {
 
-        event.preventDefault();
+        event.preventDefault()
 
-        let validation = validateRegisterForm();
+        let validation = validateRegisterForm()
 
         if (validation.error) {
 
-            setError(validation.error.details);
-            return;
+            setError(validation.error.details)
 
+            return
         }
 
-        setError([]);
-        setLoading(true);
+        setError([])
 
-        postDataToApi();
+        setLoading(true)
+
+        postDataToApi()
     }
 
     return (
         <>
 
             {error.length > 0 && (
+
                 <div className="alert alert-danger my-2">
 
                     {error.map((err, index) => (
@@ -157,11 +167,14 @@ export default function Register() {
                     ))}
 
                 </div>
+
             )}
 
             <form onSubmit={submitRegisterForm}>
 
-                <label htmlFor="name">Name :</label>
+                <label htmlFor="name">
+                    Name :
+                </label>
 
                 <input
                     onChange={getUserData}
@@ -171,7 +184,9 @@ export default function Register() {
                     id="name"
                 />
 
-                <label htmlFor="username">Username :</label>
+                <label htmlFor="username">
+                    Username :
+                </label>
 
                 <input
                     onChange={getUserData}
@@ -181,7 +196,9 @@ export default function Register() {
                     id="username"
                 />
 
-                <label htmlFor="email">Email :</label>
+                <label htmlFor="email">
+                    Email :
+                </label>
 
                 <input
                     onChange={getUserData}
@@ -191,7 +208,9 @@ export default function Register() {
                     id="email"
                 />
 
-                <label htmlFor="dateOfBirth">Date Of Birth :</label>
+                <label htmlFor="dateOfBirth">
+                    Date Of Birth :
+                </label>
 
                 <input
                     onChange={getUserData}
@@ -201,7 +220,9 @@ export default function Register() {
                     id="dateOfBirth"
                 />
 
-                <label htmlFor="gender">Gender :</label>
+                <label htmlFor="gender">
+                    Gender :
+                </label>
 
                 <select
                     onChange={getUserData}
@@ -209,12 +230,24 @@ export default function Register() {
                     name="gender"
                     id="gender"
                 >
-                    <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
+
+                    <option value="">
+                        Select Gender
+                    </option>
+
+                    <option value="male">
+                        Male
+                    </option>
+
+                    <option value="female">
+                        Female
+                    </option>
+
                 </select>
 
-                <label htmlFor="password">Password :</label>
+                <label htmlFor="password">
+                    Password :
+                </label>
 
                 <input
                     onChange={getUserData}
@@ -224,7 +257,9 @@ export default function Register() {
                     id="password"
                 />
 
-                <label htmlFor="rePassword">Confirm Password :</label>
+                <label htmlFor="rePassword">
+                    Confirm Password :
+                </label>
 
                 <input
                     onChange={getUserData}
@@ -245,5 +280,5 @@ export default function Register() {
             </form>
 
         </>
-    );
+    )
 }
