@@ -156,9 +156,9 @@ export default function Navbar({ userData, logOut }) {
                 </li>
 
                 <li className='nav-item px-2'>
-                  <span className='nav-link text-white'>
-                    Welcome {userData.name}
-                  </span>
+                  <Link  className='nav-link text-white' to ='profile'>
+                    Welcome {userData.user.name}
+                  </Link>
                 </li>
               </>
             )}

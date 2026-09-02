@@ -61,10 +61,11 @@ export default function Login({ saveUserData }) {
             )
 
             console.log("LOGIN RESPONSE:", data)
-
-            if (data.success === true) {
+if (data.success === true) {
 
     console.log("LOGIN RESPONSE:", data)
+
+    console.log("TOKEN:", data.data.token)
 
     setLoading(false)
 
@@ -77,7 +78,6 @@ export default function Login({ saveUserData }) {
 
     navigate('/home')
 }
-
              else {
 
                 setLoading(false)

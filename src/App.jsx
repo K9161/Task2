@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
@@ -11,17 +10,12 @@ import Movie from './component/Movie/Movie'
 import Login from './component/Login/Login'
 import Notfound from './component/Notfound/Notfound'
 import About from './component/About/About'
+import Profile from './component/profile/Profile'
 
 import { jwtDecode } from 'jwt-decode'
+import axios from 'axios'
 
 export default function App() {
-  
-function logOut() {
-  localStorage.removeItem('userToken')
-  setUserData(null)
-}
-
-
 
   const [userData, setUserData] = useState(null)
 
@@ -34,34 +28,41 @@ function logOut() {
   }, [])
 
 
-  function saveUserData() {
+  async function saveUserData() {
 
-    let encodedToken = localStorage.getItem('userToken')
+  let encodedToken = localStorage.getItem('userToken')
 
-    if (encodedToken) {
+  if (encodedToken) {
 
-      try {
+    try {
 
-        let decodedToken = jwtDecode(encodedToken)
+      let decodedToken = jwtDecode(encodedToken)
 
-        console.log(decodedToken)
+      console.log("TOKEN DATA:", decodedToken)
 
-        setUserData(decodedToken)
+      let { data } = await axios.get(
+        'https://route-posts.routemisr.com/users/profile-data',
+        {
+          headers: {
+            Authorization: `Bearer ${encodedToken}`
+          }
+        }
+      )
 
-      } catch (error) {
+      console.log("USER DATA:", data)
 
-        console.log("Invalid Token")
+      setUserData(data.data)
 
-        localStorage.removeItem('userToken')
+    } catch (error) {
 
-        setUserData(null)
+      console.log("ERROR:", error.response?.data)
 
-      }
+      localStorage.removeItem('userToken')
 
+      setUserData(null)
     }
   }
-
-
+}
   function logOut() {
 
     localStorage.removeItem('userToken')
@@ -117,6 +118,11 @@ function logOut() {
           path: '/about',
           element: <About />
         },
+
+        {
+  path: '/profile',
+  element: <Profile userData={userData} />
+},
 
         {
           path: '/Tv',
