@@ -77,7 +77,7 @@ export default function Navbar({ userData, logOut }) {
 
             <a
               className='nav-link text-white px-2'
-              href="https://www.facebook.com/share/14u7TKf28iA/"
+              href="https://www.facebook.com/share/1ECtW1YTHK/"
             >
               <i className='fab fa-facebook'></i>
             </a>
