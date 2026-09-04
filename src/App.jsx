@@ -14,6 +14,8 @@ import Profile from './component/profile/Profile'
 
 import { jwtDecode } from 'jwt-decode'
 import axios from 'axios'
+import MovieDetails from './component/MovieDetails/MovieDetails'
+import ProtectedRoute from './component/ProtectedRoute/ProtectedRoute'
 
 export default function App() {
 
@@ -30,39 +32,41 @@ export default function App() {
 
   async function saveUserData() {
 
-  let encodedToken = localStorage.getItem('userToken')
+    let encodedToken = localStorage.getItem('userToken')
 
-  if (encodedToken) {
+    if (encodedToken) {
 
-    try {
+      try {
 
-      let decodedToken = jwtDecode(encodedToken)
+        let decodedToken = jwtDecode(encodedToken)
 
-      console.log("TOKEN DATA:", decodedToken)
+        console.log("TOKEN DATA:", decodedToken)
 
-      let { data } = await axios.get(
-        'https://route-posts.routemisr.com/users/profile-data',
-        {
-          headers: {
-            Authorization: `Bearer ${encodedToken}`
+        let { data } = await axios.get(
+          'https://route-posts.routemisr.com/users/profile-data',
+          {
+            headers: {
+              Authorization: `Bearer ${encodedToken}`
+            }
           }
-        }
-      )
+        )
 
-      console.log("USER DATA:", data)
+        console.log("USER DATA:", data)
 
-      setUserData(data.data)
+        setUserData(data.data)
 
-    } catch (error) {
+      } catch (error) {
 
-      console.log("ERROR:", error.response?.data)
+        console.log("ERROR:", error.response?.data)
 
-      localStorage.removeItem('userToken')
+        localStorage.removeItem('userToken')
+        setUserData(null)
 
-      setUserData(null)
+      }
     }
   }
-}
+
+
   function logOut() {
 
     localStorage.removeItem('userToken')
@@ -85,53 +89,102 @@ export default function App() {
 
       children: [
 
+        // Home
         {
           path: '/home',
-          element: <Home />
-        },
-
-        {
-          path: '/login',
           element: (
-            <Login
-              saveUserData={saveUserData}
-            />
+            <ProtectedRoute userData={userData}>
+              <Home />
+            </ProtectedRoute>
           )
         },
 
+        // Movies
         {
           path: '/Movie',
-          element: <Movie />
+          element: (
+            <ProtectedRoute userData={userData}>
+              <Movie />
+            </ProtectedRoute>
+          )
         },
 
+        // People
         {
           path: '/People',
-          element: <People />
+          element: (
+            <ProtectedRoute userData={userData}>
+              <People />
+            </ProtectedRoute>
+          )
         },
 
+       
+        // About
         {
-          index: true,
-          element: <Register />
+  path: '/about/:z',
+  element: (
+    <ProtectedRoute userData={userData}>
+      <About />
+    </ProtectedRoute>
+  )
+}
+        ,
+
+        // Profile
+        {
+          path: '/profile',
+          element: (
+            <ProtectedRoute userData={userData}>
+              <Profile userData={userData} />
+            </ProtectedRoute>
+          )
         },
 
-        {
-          path: '/about',
-          element: <About />
-        },
-
-        {
-  path: '/profile',
-  element: <Profile userData={userData} />
-},
-
+        // TV
         {
           path: '/Tv',
-          element: <Tv />
+          element: (
+            <ProtectedRoute userData={userData}>
+              <Tv />
+            </ProtectedRoute>
+          )
         },
 
+        // Movie Details
+        {
+          path: '/MovieDetails/:x/:y',
+          element: (
+            <ProtectedRoute userData={userData}>
+              <MovieDetails />
+            </ProtectedRoute>
+          )
+        },
+
+        // Not Found
         {
           path: '*',
-          element: <Notfound />
+          element: (
+            <ProtectedRoute userData={userData}>
+              <Notfound />
+            </ProtectedRoute>
+          )
+        },
+
+        // Login
+        {
+          path: '/login',
+          element: (
+            <Login saveUserData={saveUserData} />
+          )
+        },
+
+        // Register
+        {
+          index: true,
+          element: (
+            <Register />
+          )
         }
 
       ]

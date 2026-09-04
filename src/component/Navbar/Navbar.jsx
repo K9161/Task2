@@ -14,14 +14,12 @@ export default function Navbar({ userData, logOut }) {
     <>
       <nav className='p-2 d-flex justify-content-between align-items-center'>
 
-        {/* Left Side */}
         <div className="left-nav d-flex align-items-center">
-
+<Link to="/home">
           <h1 className="m-0 p-2">
             Noxe
           </h1>
-
-          <ul className="list-unstyled d-flex m-0 align-items-center">
+</Link>          <ul className="list-unstyled d-flex m-0 align-items-center">
 
             <li className='p-2'>
               <Link
@@ -35,9 +33,9 @@ export default function Navbar({ userData, logOut }) {
             <li className='p-2'>
               <Link
                 className='nav-link text-white'
-                to="/about"
+                to="/MovieDetails/:x/:y"
               >
-                About
+                about
               </Link>
             </li>
 
@@ -73,22 +71,20 @@ export default function Navbar({ userData, logOut }) {
         </div>
 
 
-        {/* Right Side */}
         <div className="right-nav d-flex align-items-center">
 
-          {/* Social Media */}
           <div className="social-media d-flex align-items-center">
 
             <a
               className='nav-link text-white px-2'
-              href="#"
+              href="https://www.facebook.com/share/14u7TKf28iA/"
             >
               <i className='fab fa-facebook'></i>
             </a>
 
             <a
               className='nav-link text-white px-2'
-              href="#"
+              href="https://www.instagram.com/opream_software?igsi=c3Vja2V3ZjJzdHI="
             >
               <i className='fab fa-instagram'></i>
             </a>
@@ -109,7 +105,7 @@ export default function Navbar({ userData, logOut }) {
 
             <a
               className='nav-link text-white px-2'
-              href="#"
+              href="https://www.youtube.com/@islam_sobhi_recitations"
             >
               <i className='fab fa-youtube'></i>
             </a>

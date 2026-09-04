@@ -12,8 +12,10 @@ export default function Layout({ userData, logOut }) {
         userData={userData}
         logOut={logOut}
       />
-
-      <Outlet/>
+<div className="container">
+  <Outlet/>
+</div>
+      
 
       <Footer/>
     </>

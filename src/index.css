@@ -1,28 +1,84 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 :root
 {
-  --bg-color:#131722;
-  --main-font:  "Roboto", sans-serif;
+  --bg-main: #131722;
+  --font-main: "Roboto", sans-serif;
   --light-bg: #24baef;
-  --font-color:#fff;
-
+  --text-color: #fff;
+  --border-color: #a8a8a83d;
+  --light-main: #24baef;
 }
 body
 {
-  background-color: var(--bg-color);
-  font-family:var(--main-font) ;
-  color:var( --font-color)
-
-
+  background-color: var(--bg-main);
+  font-family: var(--font-main);
+  color: var(--text-color);
 }
+
+
 a
 {
-  color:var(--font-color);
-
-  text-decoration:none;
+  color: var(--text-color);
+  text-decoration: none;
 }
 .my-input
 {
   background-color: transparent;
-  border:solid 1px #a8a8a83d;
+  border:solid 1px var(--border-color);
+}
+.brdr
+{
+  height:1px;
+  background-color: var(--border-color);
+
+}
+
+.movie-img {
+    height: 433px;
+    object-fit: cover;
+    display: block;
+}
+
+.movie h5 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.movie p {
+    font-size: 14px;
+}
+
+.movie {
+    overflow: hidden;
+}
+
+.vote {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+input[type="search"] {
+  width: 60%;
+  margin: 30px auto !important;
+  display: block;
+
+  background-color: transparent;
+  border: 1px solid #aaa;
+  border-radius: 50px;
+
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+}
+
+input[type="search"]::placeholder {
+  color: #aaa;
+}
+
+input[type="search"]:focus {
+  background-color: transparent;
+  color: white;
+  border-color: white;
+  box-shadow: none;
+  outline: none;
 }
